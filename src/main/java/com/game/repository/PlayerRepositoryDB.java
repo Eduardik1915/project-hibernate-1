@@ -18,7 +18,7 @@ public class PlayerRepositoryDB implements IPlayerRepository {
     private final SessionFactory sessionFactory;
 
     public PlayerRepositoryDB() {
-            sessionFactory = new Configuration()
+        sessionFactory = new Configuration()
                 .addAnnotatedClass(Player.class)
                 .buildSessionFactory();
     }
@@ -39,8 +39,6 @@ public class PlayerRepositoryDB implements IPlayerRepository {
         try (Session session = sessionFactory.openSession()) {
             Query<Long> query = session.createNamedQuery("PlayersCount", Long.class);
             return query.uniqueResult().intValue();
-        } catch (Exception e) {
-            return 0;
         }
     }
 
@@ -60,7 +58,7 @@ public class PlayerRepositoryDB implements IPlayerRepository {
 
     @Override
     public Player update(Player player) {
-        try(Session session = sessionFactory.openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             if (Objects.nonNull(player)) {
                 session.merge(player);
@@ -74,7 +72,7 @@ public class PlayerRepositoryDB implements IPlayerRepository {
 
     @Override
     public Optional<Player> findById(long id) {
-        try(Session session = sessionFactory.openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             Player player = session.find(Player.class, id);
             return Optional.of(player);
         }
